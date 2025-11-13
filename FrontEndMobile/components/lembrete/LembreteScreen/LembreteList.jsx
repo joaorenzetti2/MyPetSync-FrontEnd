@@ -12,28 +12,38 @@ export default function LembretesList({ lembretes }) {
   return (
     <View style={styles.container}>
       {Object.entries(lembretesAgrupados).length > 0 ? (
-        Object.entries(lembretesAgrupados).map(([horaPrincipal, lembretesDoGrupo]) => (
-          <View key={horaPrincipal} style={styles.horaGroup}>
-            <Text style={styles.horaPrincipal}>{horaPrincipal}</Text>
+        Object.entries(lembretesAgrupados).map(
+          ([horaPrincipal, lembretesDoGrupo]) => (
+            <View key={horaPrincipal} style={styles.horaGroup}>
+              <Text style={styles.horaPrincipal}>{horaPrincipal}</Text>
 
-            {lembretesDoGrupo.map((l) => (
-              <View key={l.id} style={styles.card}>
-                <View style={[styles.barra, { backgroundColor: l.cor }]} />
-                <View style={styles.info}>
-                  <Text style={styles.titulo}>{l.titulo}</Text>
-                  <Text style={styles.descricao}>{l.descricao}</Text>
-                  <View style={styles.footer}>
-                    <View style={styles.horaWrapper}>
-                      <MaterialCommunityIcons name="clock-outline" size={16} color="#2F8B88" />
-                      <Text style={styles.horaTexto}>{l.horaDetalhe}</Text>
+              {lembretesDoGrupo.map((l) => (
+                <View key={l.id} style={styles.card}>
+                  <View style={[styles.barra, { backgroundColor: l.cor }]} />
+                  <View style={styles.info}>
+                    <Text style={styles.titulo}>{l.titulo}</Text>
+                    <Text style={styles.descricao}>{l.descricao}</Text>
+                    <View style={styles.footer}>
+                      <View style={styles.horaWrapper}>
+                        <MaterialCommunityIcons
+                          name="clock-outline"
+                          size={16}
+                          color="#2F8B88"
+                        />
+                        <Text style={styles.horaTexto}>{l.horaDetalhe}</Text>
+                      </View>
+                      <MaterialCommunityIcons
+                        name="bell-outline"
+                        size={18}
+                        color="#2F8B88"
+                      />
                     </View>
-                    <MaterialCommunityIcons name="bell-outline" size={18} color="#2F8B88" />
                   </View>
                 </View>
-              </View>
-            ))}
-          </View>
-        ))
+              ))}
+            </View>
+          )
+        )
       ) : (
         <Text style={styles.semLembretes}>Nenhum lembrete neste dia</Text>
       )}

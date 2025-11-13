@@ -80,7 +80,7 @@ export default function ServicoVetDetalheScreen() {
           <Text style={styles.vetBio}>{vet.bio}</Text>
           <VetStats vet={vet} />
           <VetAvaliacoesSection avaliacoes={reviews} />
-          <Pressable style={styles.mainButton}>
+          <Pressable style={styles.mainButton} onPress={() => router.push("/screens/servicoScreens/ServicoConsultaScreen")}>
             <Text style={styles.mainButtonText}>Marque uma Consulta!</Text>
           </Pressable>
         </View>

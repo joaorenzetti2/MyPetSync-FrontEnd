@@ -30,12 +30,6 @@ export default function PetImageInfo({ pet, router, petColor }) {
       >
         <MaterialCommunityIcons name="pencil" size={24} color="#2F8B88" />
       </Pressable>
-
-      <Pressable style={[styles.actionButton, styles.vetButton]}
-        onPress={() => router.push("/screens/perfilPetScreens/SaudePetScreen")}
-      >
-        <MaterialCommunityIcons name="stethoscope" size={24} color="#2F8B88" />
-      </Pressable>
     </View>
   );
 }
@@ -96,11 +90,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   editButton: {
-    right: 20,
+    right: 18,
     top: 15,
-  },
-  vetButton: {
-    right: 20,
-    top: 75,
-  },
+  }
 });

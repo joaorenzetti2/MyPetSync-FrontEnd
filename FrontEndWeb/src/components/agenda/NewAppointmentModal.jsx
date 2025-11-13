@@ -16,7 +16,11 @@ import {
 } from "../../services/agendaService";
 import { searchPets } from "../../services/petService";
 
-const STATUS_MAP = { Agendado: "scheduled", Confirmado: "confirmed" };
+const STATUS_MAP = {
+  Agendado: "scheduled",
+  Confirmado: "confirmed",
+  Concluído: "completed",
+};
 const DURATION_MAP = { "30 min": 30, "60 min": 60, "90 min": 90 };
 const STATUS_MAP_REVERSE = {
   scheduled: "Agendado",
@@ -46,6 +50,7 @@ const Input = ({
 }) => (
   <div className="flex flex-col">
     <label className="text-sm font-medium text-[#F0F0F0] mb-1">{label}</label>
+
     <div className="relative">
       {Icon && (
         <Icon className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -99,6 +104,7 @@ const Select = ({
       <option value="" disabled>
         {defaultMessage}
       </option>
+
       {options.map((option) => (
         <option key={option} value={option}>
           {option}
@@ -113,8 +119,9 @@ const StatusRadios = ({ value, onChange }) => (
     <label className="text-sm font-medium text-gray-700 block mb-2">
       Status do Agendamento
     </label>
+
     <div className="flex gap-6">
-      {["Agendado", "Confirmado"].map((status) => (
+      {["Agendado", "Confirmado", "Concluído"].map((status) => (
         <label
           key={status}
           className="flex items-center space-x-2 text-gray-800"
@@ -348,6 +355,7 @@ const NewAppointmentModal = ({
           <h2 className="text-xl font-semibold text-gray-800">
             {isEditing ? "Editar Agendamento" : "Novo Agendamento"}
           </h2>
+
           <button
             type="button"
             onClick={onClose}
@@ -402,6 +410,7 @@ const NewAppointmentModal = ({
                     {isSearching && (
                       <div className="p-2 text-gray-500">Buscando...</div>
                     )}
+
                     {!isSearching &&
                       searchResults.length === 0 &&
                       formData.petName.length > 2 && (
@@ -409,13 +418,15 @@ const NewAppointmentModal = ({
                           Pet não encontrado.
                         </div>
                       )}
+
                     {searchResults.map((pet) => (
                       <div
                         key={pet._id}
                         className="p-2 cursor-pointer hover:bg-teal-100"
                         onClick={() => handlePetSelect(pet)}
                       >
-                        {pet.nome} ({pet.especie}) - Tutor: {pet.tutorId.name}
+                        {pet.nome} ({pet.especie}) - Tutor:
+                        {pet.tutorId.name}
                       </div>
                     ))}
                   </div>
@@ -423,11 +434,11 @@ const NewAppointmentModal = ({
 
                 {selectedPetId && (
                   <p className="text-xs text-yellow-300 mt-1">
-                    Pet selecionado (ID: {selectedPetId.substring(0, 4)}...)
+                    Pet selecionado (ID: {selectedPetId.substring(0, 4)}
+                    ...)
                   </p>
                 )}
               </div>
-
               <Input
                 label="Nome do Tutor"
                 icon={VscPerson}
@@ -437,7 +448,6 @@ const NewAppointmentModal = ({
                 onChange={handleChange}
                 disabled={selectedPetId ? true : false}
               />
-
               <Input
                 label="Telefone"
                 icon={FiPhoneCall}
@@ -447,7 +457,6 @@ const NewAppointmentModal = ({
                 value={formData.phone}
                 onChange={handleChange}
               />
-
               <Input
                 label="Email"
                 icon={VscMail}
@@ -490,7 +499,6 @@ const NewAppointmentModal = ({
                 value={formData.date}
                 onChange={handleChange}
               />
-
               <Select
                 label="Horário"
                 options={[
@@ -511,7 +519,6 @@ const NewAppointmentModal = ({
                 value={formData.time}
                 onChange={handleChange}
               />
-
               <Select
                 label="Duração"
                 options={["30 min", "60 min", "90 min"]}

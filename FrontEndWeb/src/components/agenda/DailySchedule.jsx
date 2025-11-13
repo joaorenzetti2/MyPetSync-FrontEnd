@@ -9,8 +9,8 @@ const scheduleHours = Array.from({ length: 11 }, (_, i) => {
 
 const statusMap = {
   scheduled: { text: "Agendado", color: "bg-yellow-100 text-yellow-700" },
-  confirmed: { text: "Confirmado", color: "bg-green-100 text-green-700" },
-  completed: { text: "Concluído", color: "bg-blue-100 text-blue-700" },
+  confirmed: { text: "Confirmado", color: "bg-blue-100 text-blue-700" },
+  completed: { text: "Concluído", color: "bg-green-100 text-green-700" },
   canceled: { text: "Cancelado", color: "bg-red-100 text-red-700" },
 };
 

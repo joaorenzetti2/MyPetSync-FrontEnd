@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, StyleSheet, Image, Dimensions, Alert } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Alert,
+} from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../../../src/service/api";
@@ -29,16 +37,44 @@ export default function LoginScreen() {
     try {
       const response = await api.post("/auth/login", { email, senha });
 
-      const token = response.data.token;
+      const { token, userType, providerId, user, selectedPetId } =
+        response.data;
+      const userId = user?.id;
+
       await AsyncStorage.setItem("userToken", token);
-      console.log("Token salvo:", token);
+      await AsyncStorage.setItem("userType", userType);
+      if (providerId) {
+        await AsyncStorage.setItem("providerId", providerId);
+        await AsyncStorage.removeItem("tutorId");
+      } else {
+        await AsyncStorage.removeItem("providerId");
+      }
+
+      if (userType === "tutor" && userId) {
+        await AsyncStorage.setItem("tutorId", userId);
+      } else {
+        await AsyncStorage.removeItem("tutorId");
+      }
+
+      if (selectedPetId) {
+        await AsyncStorage.setItem("selectedPetId", selectedPetId);
+      } else {
+        await AsyncStorage.removeItem("selectedPetId");
+      }
+
+      console.log("Dados de autenticação salvos com sucesso.");
 
       Alert.alert("Sucesso", "Login realizado com sucesso!");
       router.replace("/screens/homeScreens/HomeScreen");
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Erro ao tentar entrar. Credenciais inválidas ou sem conexão.";
+      const errorMessage =
+        error.response?.data?.message ||
+        "Erro ao tentar entrar. Credenciais inválidas ou sem conexão.";
       console.error("Erro de Login:", errorMessage);
-      Alert.alert("Erro no Login", Array.isArray(errorMessage) ? errorMessage.join("\n") : errorMessage);
+      Alert.alert(
+        "Erro no Login",
+        Array.isArray(errorMessage) ? errorMessage.join("\n") : errorMessage
+      );
     } finally {
       setLoading(false);
     }
@@ -54,7 +90,9 @@ export default function LoginScreen() {
 
       <View style={styles.tabs}>
         <Pressable onPress={() => setAba("entrar")}>
-          <Text style={[styles.tabText, aba === "entrar" && styles.activeTab]}>Entrar</Text>
+          <Text style={[styles.tabText, aba === "entrar" && styles.activeTab]}>
+            Entrar
+          </Text>
         </Pressable>
         <Pressable
           onPress={() => {
@@ -62,13 +100,23 @@ export default function LoginScreen() {
             router.push("/screens/telaInicialScreens/CadastroScreen");
           }}
         >
-          <Text style={[styles.tabText, aba === "novaConta" && styles.activeTab]}>Nova Conta</Text>
+          <Text
+            style={[styles.tabText, aba === "novaConta" && styles.activeTab]}
+          >
+            Nova Conta
+          </Text>
         </Pressable>
       </View>
 
       <View style={styles.contentContainer}>
         <LoginHeader />
-        <LoginForm email={email} setEmail={setEmail} senha={senha} setSenha={setSenha} router={router} />
+        <LoginForm
+          email={email}
+          setEmail={setEmail}
+          senha={senha}
+          setSenha={setSenha}
+          router={router}
+        />
         <BottomActions onRegister={handleLogin} isLoading={loading} />
       </View>
     </View>

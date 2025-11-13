@@ -14,7 +14,7 @@ export default function PetForm({
 }) {
     return (
         <>
-            <Text style={styles.title}>Preencha os dados do seu pet 🐾</Text>
+            <Text style={styles.title}>Preencha os dados do seu pet</Text>
 
             <Text style={styles.label}>Nome</Text>
             <TextInput
